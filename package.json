@@ -6,7 +6,7 @@
     "build": "bsb -make-world",
     "watch": "bsb -make-world -w",
     "build-tldr-parser": "pegjs -o src/Parsers/tldr-parser.js src/parsers/tldr-parser.pegjs",
-    "runwatch": "nodemon src/Wtf.js"
+    "runwatch": "nodemon src/Wtf.bs.js"
   },
   "keywords": [
     "BuckleScript"

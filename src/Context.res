@@ -1,18 +1,24 @@
-module StringMap = Map.Make({
-  type t = string;
-  let compare = compare
+open Types
+
+module StringCmp = Belt.Id.MakeComparable({
+  type t = string
+  let cmp = compare
 });
 
-type ty = Types.tldrDecl
+type context = Belt.Map.t<string,decl,StringCmp.identity>
 
-type context = StringMap.t<ty>
+let emptyContext : context = Belt.Map.make(~id=module(StringCmp))
 
-let emptyContext : context = StringMap.empty
+let lookup = (ctx:context, x:string) : option<decl> => Belt.Map.get(ctx, x)
 
-let lookup = (ctx:context, x:string) : option<ty> => try {
-    Some(StringMap.find(x, ctx))
-} catch {
+// TODO can speedup, capital names are types, lower case names are terms
+// use two contexts?
+let lookupTy = (ctx, key) => switch lookup(ctx,key) {
+  | Some(decl) => switch decl {
+    | TypeDecl({ty}) => Some(ty)
     | _ => None
+  }
+  | None => None
 }
 
-let extend = (ctx:context, l:string, t:ty) : context => StringMap.add(l, t, ctx);
+let extend = (ctx:context, l:string, t:decl) : context => Belt.Map.set(ctx, l, t)

@@ -47,7 +47,7 @@ let handlResult : (jsParseResult, tldrAST => parseResult, syntaxError => parseRe
     }
 }
 
-let tldrParser : string => parseResult
+let parse : string => parseResult
     = s => {
         let x = parsePEG(s)
         let parseFn : tldrAST => parseResult = x => Ok(x)

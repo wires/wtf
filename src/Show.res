@@ -15,12 +15,12 @@ let showErr : syntaxError => string = err => {
 let mapjoin : (string, 'a => string, array<'a>) => string
  = (joinWith, f, xs) => Js.Array.joinWith(joinWith, Js.Array.map(f,xs))
 
-let rec showNProd : tldrTyField => string = f => "*" ++ f.name ++ ":" ++ showType(f.ty)
-and showNSum : tldrTyField => string = f => "|" ++ f.name ++ ":" ++ showType(f.ty)
+let rec showNProd : tyField => string = f => "*" ++ f.name ++ ":" ++ showType(f.ty)
+and showNSum : tyField => string = f => "|" ++ f.name ++ ":" ++ showType(f.ty)
 and showNProds = xs => mapjoin(" ", showNProd, xs)
 and showAProds = xs => mapjoin(" * ", showType, xs)
 and showNSums = xs => mapjoin(" ", showNSum, xs)
-and showType : tldrTyNode => string
+and showType : tyNode => string
   = n => {
       switch n {
       | Base({base}) => base
@@ -33,7 +33,7 @@ and showType : tldrTyNode => string
       }
   }
 
-let showBaseTerm : tldrTmBase => string = b => {
+let showBaseTerm : tmBase => string = b => {
     switch b {
     | TmUnit => "()"
     | TmBool({boolVal}) => string_of_bool(boolVal)
@@ -43,8 +43,8 @@ let showBaseTerm : tldrTmBase => string = b => {
     | TmBytes({bytesVal}) => "0x" ++ bytesVal
     }
 }
-let rec showField : tldrTmField => string = f => f.n ++ "=" ++ showTerm(f.tm)
-and showTerm : tldrTmN => string = n => switch n {
+let rec showField : tmField => string = f => f.n ++ "=" ++ showTerm(f.tm)
+and showTerm : tmNode => string = n => switch n {
 | TmBase({base}) => showBaseTerm(base)
 | TmArray({arrayTerms}) => "[" ++ mapjoin(" ", showTerm, arrayTerms) ++ "]"
 | TmNamedProduct({fields}) => "{" ++ mapjoin(" ", showField, fields) ++ "}"
@@ -54,7 +54,7 @@ and showTerm : tldrTmN => string = n => switch n {
 | TmRef({ref}) => "#" ++ ref
 }
 
-let showDecl : tldrDecl => string
+let showDecl : decl => string
   = decl => switch decl {
     | TypeDecl({name, ty}) => "TypeDecl " ++ name ++ " = " ++ showType(ty)
     | TermDecl({name, tm, ty}) => {
@@ -71,3 +71,11 @@ let showParseResult = r => switch r {
 | Ok(r) => Js.log(showAST(r))
 | Error(e) => Js.log(showErr(e))
 }
+
+open Context
+let showContext : context => string
+    = ctx => {
+        let f = ((n:string,d:decl)) => n ++ " -> " ++ showDecl(d)
+        let cs = Belt.Array.map(Belt.Map.toArray(ctx), f)
+        "\n  " ++ Js.Array.joinWith("\n  ", cs)
+    }
