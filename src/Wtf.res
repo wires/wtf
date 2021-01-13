@@ -69,7 +69,7 @@ let check = s => switch TLDR.parse(s) {
     | _ => Error("parse error")
 }
 
-let src = `
+let src1 = `
 term k : (int * int * int) = (1 * 2 * 3)
 type Q = {|A:int |B:bool}
 term q : Q = (B|f)
@@ -85,6 +85,20 @@ term z : [bool] = {
     *a=t
     *b=1
     *c=3
+}
+`
+let src = `
+type Q = {
+   * pair: (int * bool)
+   * other: string
+}
+term q0 : Q = {
+   * pair = (123 * f)
+   * other = "hello"
+}
+term q1 : Q = {
+   * pair = (234 * t)
+   * other = "goodbye"
 }
 `
 
