@@ -28,6 +28,8 @@ term q0:Q ✔
 term q1:Q ✔
 ```
 
+See [docs/syntax.md](docs/syntax.md) for more information.
+
 ## Development
 
 ```sh
