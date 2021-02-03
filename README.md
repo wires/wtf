@@ -1,5 +1,16 @@
 # Well Typed Foundations 🏛️
 
+> NB: I realize `wtf` is immature possibly offensive to people. At the same
+> time I am absolutely offended by the state of the world, how people are
+> treating our planet and all the living sentient beings on it, how we are
+> polluting everything and destroying the future for everyone.
+> Et-f**king-ceteral. Where is the outrage about that?
+>
+> I will rename this eventually, but for now please pretend `wtf` really means
+> "well typed foundations" because that is really what this is.
+>
+> Thank you
+
 Like JSON but better.
 
 Create a file `stuff.wtf`:
