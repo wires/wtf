@@ -12,7 +12,7 @@
     "BuckleScript"
   ],
   "author": "",
-  "license": "MIT",
+  "license": "MPL-2",
   "devDependencies": {
     "bs-platform": "^8.3.3",
     "nodemon": "^2.0.7",
